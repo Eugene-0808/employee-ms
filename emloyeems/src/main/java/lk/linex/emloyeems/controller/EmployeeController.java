@@ -17,11 +17,10 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
-    @Autowired
-    private ResponseDTO responseDTO;
 
     @PostMapping(value = "/saveEmployee")
     public ResponseEntity saveEmployee(@RequestBody EmployeeDTO employeeDTO){
+        ResponseDTO responseDTO = new ResponseDTO();
             try {
                 String res = employeeService.saveEmployee(employeeDTO);
                 if (res.equals("00")){
@@ -50,6 +49,7 @@ public class EmployeeController {
 
     @PutMapping(value = "/updateEmployee")
     public ResponseEntity updateEmployee(@RequestBody EmployeeDTO employeeDTO){
+        ResponseDTO responseDTO = new ResponseDTO();
         try {
             String res = employeeService.updateEmployee(employeeDTO);
             if (res.equals("00")){
@@ -78,6 +78,7 @@ public class EmployeeController {
 
     @GetMapping("/getAllEmployees")
     public ResponseEntity getAllEmployees(){
+        ResponseDTO responseDTO = new ResponseDTO();
         try {
             List<EmployeeDTO> employeeDTOList = employeeService.getAllEmployee();
             responseDTO.setCode(VarList.RSP_SUCCESS);
@@ -94,6 +95,7 @@ public class EmployeeController {
 
     @GetMapping("/searchEmployee/{empId}")
     public ResponseEntity searchEmployee(@PathVariable int empId){
+        ResponseDTO responseDTO = new ResponseDTO();
         try {
             EmployeeDTO employeeDTO = employeeService.searchEmployee(empId);
             if (employeeDTO != null){
@@ -117,6 +119,7 @@ public class EmployeeController {
 
     @DeleteMapping("/deleteEmployee/{empId}")
     public ResponseEntity deleteEmployee(@PathVariable int empId){
+        ResponseDTO responseDTO = new ResponseDTO();
         try {
             String res = employeeService.deleteEmployee(empId);
             if (res.equals("00")){
