@@ -31,7 +31,7 @@ class EmployeeControllerTest {
 
     @BeforeEach
     void setUp() {
-        employeeDTO = new EmployeeDTO(1, "John Doe", "123 Main St", "1234567890");
+        employeeDTO = new EmployeeDTO(1, "John Doe", "123 Main St", "1234567890", "IT", "john.doe@example.com", 30, 50000.0);
     }
 
     // ===================== saveEmployee =====================

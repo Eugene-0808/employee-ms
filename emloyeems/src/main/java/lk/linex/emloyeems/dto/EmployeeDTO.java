@@ -12,4 +12,8 @@ public class EmployeeDTO {
     private String empName;
     private String empAddress;
     private String mNumber;
+    private String department;
+    private String email;
+    private int age;
+    private double salary;
 }
