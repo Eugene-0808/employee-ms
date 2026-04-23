@@ -21,6 +21,30 @@ public class EmployeeService {
     @Autowired
     private ModelMapper modelMapper;
 
+    public List<EmployeeDTO> findByName(String name) {
+        List<Employee> employeeList = employeeRepo.findByNameContaining(name);
+        return modelMapper.map(employeeList, new TypeToken<ArrayList<EmployeeDTO>>(){}.getType());
+    }
+
+    public List<EmployeeDTO> findByDepartment(String department) {
+        List<Employee> employeeList = employeeRepo.findByDepartmentContaining(department);
+        return modelMapper.map(employeeList, new TypeToken<ArrayList<EmployeeDTO>>(){}.getType());
+    }
+
+    public List<EmployeeDTO> findByNameOrDepartment(String name, String department) {
+        List<Employee> employeeList = new ArrayList<>();
+
+        if (name != null && !name.isBlank() && department != null && !department.isBlank()) {
+            employeeList = employeeRepo.findByNameContainingOrDepartmentContaining(name, department);
+        } else if (name != null && !name.isBlank()) {
+            employeeList = employeeRepo.findByNameContaining(name);
+        } else if (department != null && !department.isBlank()) {
+            employeeList = employeeRepo.findByDepartmentContaining(department);
+        }
+
+        return modelMapper.map(employeeList, new TypeToken<ArrayList<EmployeeDTO>>(){}.getType());
+    }
+
     public String saveEmployee(EmployeeDTO employeeDTO){
         if (employeeRepo.existsById(employeeDTO.getEmpId())){
             return VarList.RSP_DUPLICATED;
