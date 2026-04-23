@@ -117,6 +117,59 @@ public class EmployeeController {
         }
     }
 
+    @GetMapping("/searchByName/{name}")
+    public ResponseEntity searchByName(@PathVariable String name) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        try {
+            List<EmployeeDTO> employeeDTOList = employeeService.findByName(name);
+            responseDTO.setCode(VarList.RSP_SUCCESS);
+            responseDTO.setMessage("Success");
+            responseDTO.setContent(employeeDTOList);
+            return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(e.getMessage());
+            responseDTO.setContent(null);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/searchByDepartment/{department}")
+    public ResponseEntity searchByDepartment(@PathVariable String department) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        try {
+            List<EmployeeDTO> employeeDTOList = employeeService.findByDepartment(department);
+            responseDTO.setCode(VarList.RSP_SUCCESS);
+            responseDTO.setMessage("Success");
+            responseDTO.setContent(employeeDTOList);
+            return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(e.getMessage());
+            responseDTO.setContent(null);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity searchByNameOrDepartment(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String department) {
+        ResponseDTO responseDTO = new ResponseDTO();
+        try {
+            List<EmployeeDTO> employeeDTOList = employeeService.findByNameOrDepartment(name, department);
+            responseDTO.setCode(VarList.RSP_SUCCESS);
+            responseDTO.setMessage("Success");
+            responseDTO.setContent(employeeDTOList);
+            return new ResponseEntity(responseDTO, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            responseDTO.setCode(VarList.RSP_ERROR);
+            responseDTO.setMessage(e.getMessage());
+            responseDTO.setContent(null);
+            return new ResponseEntity(responseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @DeleteMapping("/deleteEmployee/{empId}")
     public ResponseEntity deleteEmployee(@PathVariable int empId){
         ResponseDTO responseDTO = new ResponseDTO();

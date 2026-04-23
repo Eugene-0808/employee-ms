@@ -2,6 +2,7 @@ package lk.linex.emloyeems.controller;
 
 import lk.linex.emloyeems.dto.EmployeeDTO;
 import lk.linex.emloyeems.dto.ResponseDTO;
+import lk.linex.emloyeems.entity.Employee;
 import lk.linex.emloyeems.service.EmployeeService;
 import lk.linex.emloyeems.util.VarList;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,10 +13,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,8 +35,10 @@ class EmployeeControllerTest {
 
     @BeforeEach
     void setUp() {
-        employeeDTO = new EmployeeDTO(1, "John Doe", "123 Main St", "1234567890", "IT", "john.doe@example.com", 30, 50000.0);
+        employeeDTO = new EmployeeDTO(1, "John Doe", "123 Main St", "1234567890", "IT", "john.doe@example.com", 30,
+                50000.0);
     }
+
 
     // ===================== saveEmployee =====================
 
@@ -101,7 +107,8 @@ class EmployeeControllerTest {
 
     @Test
     void testUpdateEmployee_NotFound() {
-        // Controller checks res.equals("01") → RSP_NO_DATA_FOUND → sets RSP_DUPLICATED (existing controller behavior)
+        // Controller checks res.equals("01") → RSP_NO_DATA_FOUND → sets RSP_DUPLICATED
+        // (existing controller behavior)
         when(employeeService.updateEmployee(any(EmployeeDTO.class))).thenReturn(VarList.RSP_NO_DATA_FOUND); // "01"
 
         ResponseEntity<ResponseDTO> response = employeeController.updateEmployee(employeeDTO);
@@ -241,4 +248,5 @@ class EmployeeControllerTest {
         assertEquals("Delete failed", response.getBody().getMessage());
         assertNull(response.getBody().getContent());
     }
+
 }
