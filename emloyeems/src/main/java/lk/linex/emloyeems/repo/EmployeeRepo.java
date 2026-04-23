@@ -6,7 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface EmployeeRepo extends JpaRepository<Employee, Integer> {
-    List<Employee> findByNameContaining(String name);
+    // Changed 'Name' to 'EmpName' to match the Entity field 'empName'
+    List<Employee> findByEmpNameContaining(String name);
+
     List<Employee> findByDepartmentContaining(String department);
-    List<Employee> findByNameContainingOrDepartmentContaining(String name, String department);
+
+    // Changed 'Name' to 'EmpName' here as well
+    List<Employee> findByEmpNameContainingOrDepartmentContaining(String name, String department);
 }

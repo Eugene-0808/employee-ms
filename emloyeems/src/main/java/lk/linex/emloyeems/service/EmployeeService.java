@@ -21,8 +21,9 @@ public class EmployeeService {
     @Autowired
     private ModelMapper modelMapper;
 
+    // CHANGED: findByNameContaining -> findByEmpNameContaining
     public List<EmployeeDTO> findByName(String name) {
-        List<Employee> employeeList = employeeRepo.findByNameContaining(name);
+        List<Employee> employeeList = employeeRepo.findByEmpNameContaining(name);
         return modelMapper.map(employeeList, new TypeToken<ArrayList<EmployeeDTO>>(){}.getType());
     }
 
@@ -35,15 +36,19 @@ public class EmployeeService {
         List<Employee> employeeList = new ArrayList<>();
 
         if (name != null && !name.isBlank() && department != null && !department.isBlank()) {
-            employeeList = employeeRepo.findByNameContainingOrDepartmentContaining(name, department);
+            // CHANGED: findByName... -> findByEmpNameContainingOrDepartmentContaining
+            employeeList = employeeRepo.findByEmpNameContainingOrDepartmentContaining(name, department);
         } else if (name != null && !name.isBlank()) {
-            employeeList = employeeRepo.findByNameContaining(name);
+            // CHANGED: findByNameContaining -> findByEmpNameContaining
+            employeeList = employeeRepo.findByEmpNameContaining(name);
         } else if (department != null && !department.isBlank()) {
             employeeList = employeeRepo.findByDepartmentContaining(department);
         }
 
         return modelMapper.map(employeeList, new TypeToken<ArrayList<EmployeeDTO>>(){}.getType());
     }
+
+    // ... (rest of your methods: save, update, getAll, search, delete remain the same)
 
     public String saveEmployee(EmployeeDTO employeeDTO){
         if (employeeRepo.existsById(employeeDTO.getEmpId())){
@@ -76,6 +81,7 @@ public class EmployeeService {
             return null;
         }
     }
+    
     public String deleteEmployee(int empId){
         if(employeeRepo.existsById(empId)){
             employeeRepo.deleteById(empId);
